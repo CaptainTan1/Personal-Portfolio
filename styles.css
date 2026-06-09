@@ -1,369 +1,356 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
-
-:root {
-  --primary-color: #a855f7;
-  --primary-color-dark: #9333ea;
-  --secondary-color: #ca8a04;
-  --text-dark: #1f2937;
-  --text-light: #6b7280;
-  --extra-light: #faf5ff;
-  --max-width: 1200px;
-  
-}
-
+/* --- RESET & FONTS --- */
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  scroll-behavior: smooth;
-}
-
-a {
-  text-decoration: none;
+  font-family: 'Press Start 2P', cursive; /* The 8-bit Font */
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  background-color: #111; /* Dark arcade background */
+  color: #fff;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-nav {
-  width: 100%;
-  position: sticky;
+/* ========================================= */
+/* INTRO SEQUENCE STYLES                     */
+/* ========================================= */
+
+#intro-overlay {
+  position: fixed;
   top: 0;
   left: 0;
-  background-color: #ffffff;
-  z-index: 99;
-
+  width: 100%;
+  height: 100%;
   
-}
-
-
-.nav__content {
-  max-width: var(--max-width);
-  margin: auto;
-  padding: 1.5rem 1rem;
+  /* Your Mario Background */
+  background-image: url('Animations/mario-background.png');
+  
+  /* ADD THESE 3 LINES TO FIX THE IMAGE: */
+  background-size: cover;       /* Forces the image to stretch across the whole screen */
+  background-position: center;  /* Keeps the image perfectly centered */
+  background-repeat: no-repeat; /* Stops the image from duplicating like a tile */
+  
+  z-index: 9999; /* On top of everything */
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-nav .logo a {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  transition: 0.3s;
-}
-nav .logo a:hover {
-  color: var(--primary-color-dark);
-}
-
-nav .checkbox {
-  display: none;
-}
-
-nav input {
-  display: none;
-}
-nav .checkbox i {
-  font-size: 2rem;
-  color: var(--primary-color);
-  cursor: pointer;
-}
-
-ul {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  list-style: none;
-  transition: left 0.3s;
-}
-
-ul li a {
-  padding: 0.5rem 1rem;
-  border: 2px solid transparent;
-  text-decoration: none;
-  font-weight: 600;
-  color: var(--text-dark);
-  transition: 0.3s;
-}
-
-ul li a:hover {
-  border-top-color: var(--secondary-color);
-  border-bottom-color: var(--secondary-color);
-  color: var(--secondary-color);
-}
-
-.section {
-  background-color: var(--extra-light);
-}
-
-.section__container {
-  min-height: 100vh;
-  max-width: var(--max-width);
-  margin: auto;
-  padding: 1rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4rem;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: opacity 1s ease-out;
 }
 
-.subtitle {
-  letter-spacing: 2px;
-  color: var(--text-light);
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+#intro-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none; /* Let clicks pass through */
 }
 
-.title {
-  font-size: 2.5rem;
-  font-weight: 400;
-  line-height: 3rem;
-  color: var(--text-dark);
-  margin-bottom: 1rem;
-}
-
-.title span {
-  font-weight: 600;
-}
-
-.description {
-  line-height: 1.5rem;
-  color: var(--text-light);
-  margin-bottom: 2rem;
-  text-align: justify;
-}
-
-.action__btns {
-  display: flex;
-  gap: 1rem;
-}
-
-.action__btns button {
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  padding: 1rem 2rem;
-  outline: none;
-  border: 2px solid var(--primary-color);
-  border-radius: 10px;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-.hire__me {
-  background-color: var(--primary-color);
-  color: #ffffff;
-}
-
-.hire__me:hover {
-  background-color: var(--primary-color-dark);
-}
-
-.portfolio {
-  color: var(--primary-color);
-}
-
-.portfolio:hover {
-  background-color: var(--primary-color-dark);
-  color: #ffffff;
-}
-
-.image {
-  display: grid;
-  place-items: center;
-}
-
-.image img {
-  width: min(25rem, 90%);
-  border-radius: 100%;
-}
-
-@media (width < 750px) {
-  nav .checkbox {
-    display: block;
-  }
-
-  ul {
+/* Common State management */
+#play-screen, #crack-effect, #mario-stage {
+    display: none;
     position: absolute;
     width: 100%;
-    height: calc(100vh - 85px);
-    left: -100%;
-    top: 85px;
-    background-color: var(--extra-light);
-    flex-direction: column;
+    height: 100%;
     justify-content: center;
-    gap: 3rem;
-  }
-
-  nav #check:checked ~ ul {
-    left: 0;
-  }
-
-  ul li a {
-    font-size: 1.25rem;
-  }
-
-  .section__container {
-    padding: 10rem 1rem 5rem 1rem;
-    text-align: center;
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-  .image {
-    grid-area: 1/1/2/2;
-  }
-
-  .action__btns {
-    margin: auto;
-  }
+    align-items: center;
+    flex-direction: column;
 }
 
-.profile-card {
-  display: flex;
-  background-color: #333;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  color: #fff;
-  width: 600px;
-  max-width: 100%;
+.active { display: flex !important; }
+.mt-20 { margin-top: 20px; }
+
+
+/* --- Volume Slider Styles --- */
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #facc15; /* Yellow text to match the theme */
+    font-size: 0.6rem;
 }
 
-.card-left {
-  background-color: #444;
-  padding: 20px;
-  text-align: center;
-  flex: 1;
-}
-
-.profile-image {
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  margin-bottom: 10px;
-}
-
-.card-left h2 {
-  margin: 10px 0 5px;
-}
-
-.card-left p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.card-right {
-  padding: 20px;
-  flex: 2;
-}
-
-.card-right h3 {
-  margin-top: 0;
-  color: #00aaff;
-}
-
-.card-right p {
-  margin: 10px 0;
-}
-
-.social-links {
-  display: flex;
-  gap: 50px;
-  margin: 0 20px;
-  justify-content: center;
-  
-  
-}
-
-.social-links img {
-  width: 24px;
-  height: 24px;
-}
-
-.heart {
-  color: red;
+.volume-container input[type="range"] {
+    cursor: pointer;
+    width: 80px;
+    accent-color: #4ade80; /* Green slider color */
 }
 
 @media (max-width: 768px) {
-  .profile-card {
-      flex-direction: column;
-      align-items: center;
+  /* Hides the text on mobile so the slider fits */
+  .volume-container span { display: none; } 
+}
+
+/* --- 1. Play Screen --- */
+
+
+#custom-play-btn {
+    height: 60;
+    width: 300px; /* Adjust this to make your button bigger or smaller */
+    max-width: 80%; /* Keeps it from breaking on small screens */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#custom-play-btn:hover {
+    transform: scale(1.1); /* Makes it pop slightly when you hover over it */
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+/* --- 2. Crack Effect (Slow Draw Version) --- */
+#crack-effect {
+  background-color: rgba(255, 255, 255, 0.1); 
+}
+
+#crack-svg {
+  width: 100vw;  /* 100% of the screen width */
+  height: 100vh; /* 100% of the screen height */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Base setup for all lines to animate */
+.crack-line {
+  stroke: rgb(0, 0, 0);
+  fill: none;
+  stroke-linejoin: miter;
+  stroke-linecap: square;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+}
+
+/* Thicker lines for the main impact */
+.crack-line.main {
+  stroke-width: 2.5;
+}
+
+/* Thinner lines for the spiderweb effect */
+.crack-line.sub {
+  stroke-width: 1;
+  opacity: 0.7;
+}
+
+/* The animation that draws them in */
+.crack-line.draw {
+  animation: drawCrack 1.5s ease-out forwards;
+}
+
+@keyframes drawCrack {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
-@media (max-width: 768px){
-    
-.row{
-  flex-direction: column;
-  margin-top: 30px;
-}
-.row .image-container {
-  margin-left: 0px;
-  
-}
-.row .text-container h1,h2{
-  justify-content: center;
-
-}
+/* --- 3. Mario Stage --- */
+#mario-stage {
+    /* Set this to your downloaded Mario background image */
+    background-image: url('Animations/mario-background.png');
+    background-size: cover; 
+    background-position: bottom; 
+    background-repeat: no-repeat;
+    background-color: #5c94fc; 
 }
 
+/* --- 3. Mario Stage --- */
 
-.row {
+/* Add this to make the block bounce when hit */
+.block.hit {
+    animation: blockBump 0.2s ease-out;
+}
+
+@keyframes blockBump {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0); }
+}
+
+/* Gold Blocks */
+.gold-blocks {
+    display: flex;
+    gap: 2px;
+    position: absolute;
+    top: 30%; /* Place them high up */
+}
+
+.block {
+    width: 48px;
+    height: 52px;
+    /* Point to your custom block image */
+    background-image: url('Animations/Block.png'); 
+    background-size: cover;
+    image-rendering: pixelated; 
+}
+
+/* Mario Sprite */
+.mario-spriteStanding, .mario-spriteJumping {
+    width: 64px; 
+    height: 70px; 
+    position: absolute;
+    bottom: 26%; 
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Set this to your standing character image */
+.mario-spriteStanding {
+    background-image: url('Animations/Idle.png');
+    transform: scale(2); 
+}
+
+/* Set this to your jumping character image */
+.mario-spriteJumping {
+    background-image: url('Animations/Jump.png');
+    transform: scale(2);
+    animation: marioJump 1s ease-out forwards; 
+}
+
+@keyframes marioJump {
+    0% { bottom: 26%; }  /* Starts on the ground */
+    50% { bottom: 45%; } /* Hits blocks at apex */
+    100% { bottom: 26%; } /* Lands safely back on the ground */
+}
+
+/* ========================================= */
+/* MAIN PORTFOLIO STYLES                     */
+/* ========================================= */
+
+
+/* --- Social Media Icons --- */
+.social-icon {
+    width: 32px;  /* Adjust this to make the icons bigger or smaller */
+    height: 32px;
+    margin-right: 15px; /* Adds space between the icons */
+    image-rendering: pixelated; /* Keeps them looking crisp and retro */
+    transition: transform 0.2s ease; /* Smooth animation for hover */
+}
+
+.social-links a:hover .social-icon {
+    transform: scale(1.2) translateY(-3px); /* Makes the icon pop up and grow when you hover */
+}
+
+#portfolio-content {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+#portfolio-content.fade-in {
+    opacity: 1;
+}
+
+.hidden { display: none; }
+
+/* Typography Scale */
+h1 { font-size: 1.2rem; color: #4ade80; margin-bottom: 10px; }
+h2 { font-size: 1rem; color: #facc15; margin-bottom: 10px; }
+h3 { font-size: 0.9rem; color: #60a5fa; }
+p { font-size: 0.6rem; margin-bottom: 15px; line-height: 1.8; }
+.subtitle { font-size: 0.8rem; color: #000000; }
+.text-center { text-align: center; margin: 40px 0 20px 0; }
+
+/* The Game Box Layout */
+.rpg-box {
+  background-color: #000;
+  border: 4px solid #fff;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 900px;
+  box-shadow: 6px 6px 0px #4ade80; /* Retro block shadow */
+}
+
+/* Navigation Menu */
+.rpg-nav {
+  background-color: #000;
+  border-bottom: 4px solid #fff;
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav__content {
   display: flex;
-  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: auto;
+}
+.nav__content a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.7rem;
+}
+.nav__content ul {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+.nav__content ul li a:hover {
+  color: #4ade80;
+}
+
+/* Home Section Layout */
+.section__container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+.content, .text-container { flex: 1; min-width: 300px; }
+.image, .image-container { flex: 1; text-align: center; }
+.image img, .image-container img, .image-container video {
+  max-width: 100%;
+  border: 4px solid #fff;
+  border-radius: 4px;
+}
+
+/* Profile Card (Stats) */
+.profile-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.card-left { flex: 1; text-align: center; border-right: 4px dashed #fff; padding-right: 20px;}
+.card-right { flex: 2; padding-left: 20px; }
+.profile-image { max-width: 150px; border: 4px solid #fff; margin-bottom: 15px; }
+
+/* Quest Rows */
+.quest-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
   align-items: center;
 }
 
-.image-container {
-  flex: 1;
-  margin-left: 50px;
+/* Buttons */
+.btn {
+  display: inline-block;
+  background-color: #4ade80;
+  color: #000;
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 0.6rem;
+  border: 2px solid #fff;
+  box-shadow: 3px 3px 0px #fff;
+  margin-top: 10px;
+  text-transform: uppercase;
 }
-
-
-
-
-.image-container img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-}
-
-.image-container video {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-}
-.text-container {
-  flex: 1;
-  padding: 20px;
+.btn:hover {
   background-color: #fff;
-  color: #333;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: none;
+  transform: translate(3px, 3px);
 }
 
-.text-container h2 {
-  font-size: 1.5rem;
-  color: #7f7f7f;
-}
+/* Social Links */
+.social-links a { color: #facc15; font-size: 0.7rem; text-decoration: none; margin-right: 10px; }
+.social-links a:hover { color: #fff; }
 
-.text-container h1 {
-  font-size: 2.5rem;
-  margin: 10px 0;
+/* Responsive basics */
+@media (max-width: 768px) {
+  .nav__content ul { display: none; } 
+  .card-left { border-right: none; border-bottom: 4px dashed #fff; padding-right: 0; padding-bottom: 20px;}
+  .card-right { padding-left: 0; }
 }
-
-.text-container p {
-  font-size: 1rem;
-  line-height: 1.5;
-  margin: 10px 0;
-}
-
