@@ -45,6 +45,29 @@ body {
     pointer-events: none; /* Let clicks pass through */
 }
 
+
+/* --- Retro Dropdown Menu --- */
+.retro-select {
+    background-color: #000;
+    color: #4ade80; /* Hacker Green text */
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.5rem;
+    border: 2px solid #fff;
+    padding: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.retro-select:hover {
+    border-color: #4ade80;
+}
+
+/* For mobile: hide the "TRACK:" text so the dropdown fits on the screen */
+@media (max-width: 768px) {
+  .volume-container span { display: none; } 
+  .retro-select { max-width: 100px; }
+}
+
 /* Common State management */
 #play-screen, #crack-effect, #mario-stage {
     display: none;

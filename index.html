@@ -76,6 +76,19 @@
             <li><a href="#About">About</a></li>
             <li><a href="#firstact">Quest 1</a></li>
             <li><a href="#secact">Quest 2</a></li>
+            <div>
+                <div class="volume-container">
+                    <span>TRACK:</span>
+                    <select id="bgm-select" class="retro-select">
+                        <option value="bgm/AdhesiveWombat - Night Shade  NO COPYRIGHT 8-bit Music.mp3">Main</option>
+                        <option value="bgm/Janine Berdin performs What if I miss you for the rest of my life_ LIVE on Wish 107.5 Bus.mp3">Overworld Theme</option>
+                        <option value="bgm/The Juans and Janine Berdin perform Ano Ba Talaga Tayo_ LIVE on Wish 107.5 Bus.mp3">Underground</option>
+                        <option value="bgm/Silent Sanctuary - Bumalik Ka Na Sa'kin (Official Lyric Video).mp3">Boss Fight</option>
+                        <option value="bgm/Le John - Naiilang (Official Music Video).mp3">Coward Knight</option>
+                        <option value="bgm/Ako Na Na Lang - The Juans (Official Lyric Video).mp3">Protect</option>
+                    </select>
+                </div>
+            </div>
             <div class="volume-container">
                     <span>BGM VOL:</span>
                     <input type="range" id="bgm-volume" min="0" max="1" step="0.1" value="0.1">
@@ -274,8 +287,10 @@
         const mario = document.querySelector('.mario-spriteStanding');
         const portfolioContent = document.getElementById('portfolio-content');
         const jumpPrompt = document.getElementById('jump-prompt');
+
         
         // BGM and Video variables
+        const bgmSelect = document.getElementById('bgm-select');
         const bgmAudio = document.getElementById('bgm-audio');
         const bgmVolume = document.getElementById('bgm-volume');
         const allVideos = document.querySelectorAll('video'); 
@@ -287,6 +302,19 @@
 
         bgmVolume.addEventListener('input', (event) => {
             bgmAudio.volume = event.target.value;
+        });
+
+        bgmSelect.addEventListener('change', (event) => {
+            // Check if music is currently playing
+            const isPlaying = !bgmAudio.paused;
+            
+            // Change the audio file to the newly selected one
+            bgmAudio.src = event.target.value;
+            
+            // If music was already playing, start the new track immediately
+            if (isPlaying) {
+                bgmAudio.play();
+            }
         });
 
         // --- SMART VIDEO DETECTION ---
