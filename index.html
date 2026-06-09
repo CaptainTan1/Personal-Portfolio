@@ -51,7 +51,7 @@
 
       <!-- State 3: Mario Animation Stage -->
       <div id="mario-stage">
-        <h2 id="jump-prompt" class="blink" style="position: absolute; top: 15%; color: white; text-shadow: 4px 4px 0 #000; text-align: center;">PRESS SPACE TO JUMP</h2>
+       <h2 id="jump-prompt" class="blink" style="position: absolute; top: 15%; color: white; text-shadow: 4px 4px 0 #000; text-align: center;">TAP OR PRESS SPACE</h2>
         <div class="gold-blocks">
           <div class="block b1"></div>
           <div class="block b2"></div>
@@ -263,7 +263,7 @@
     <!-- ========================================= -->
     <!-- SCRIPT FOR ANIMATION                      -->
     <!-- ========================================= -->
-    <script>
+ <script>
         const introOverlay = document.getElementById('intro-overlay');
         const playScreen = document.getElementById('play-screen');
         const crackEffect = document.getElementById('crack-effect');
@@ -275,7 +275,7 @@
         const portfolioContent = document.getElementById('portfolio-content');
         const jumpPrompt = document.getElementById('jump-prompt');
         
-        // NEW: BGM and Video variables
+        // BGM and Video variables
         const bgmAudio = document.getElementById('bgm-audio');
         const bgmVolume = document.getElementById('bgm-volume');
         const allVideos = document.querySelectorAll('video'); 
@@ -283,40 +283,32 @@
         let canJump = false; 
 
         // --- VOLUME CONTROL LOGIC ---
-        // Set initial volume when page loads
         bgmAudio.volume = bgmVolume.value; 
 
-        // Change volume when slider is moved
         bgmVolume.addEventListener('input', (event) => {
             bgmAudio.volume = event.target.value;
         });
 
         // --- SMART VIDEO DETECTION ---
-        // Loops through every video on your site (Cry of Balintawak, Art, Tabata, etc.)
         allVideos.forEach(video => {
             video.addEventListener('play', () => {
-                // Pause BGM when a video is played
-                bgmAudio.pause();
+                bgmAudio.pause(); // Pause BGM when video plays
             });
             
             video.addEventListener('pause', () => {
-                // Play BGM again when a video is paused
-                bgmAudio.play();
+                bgmAudio.play(); // Play BGM when video is paused manually
             });
             
             video.addEventListener('ended', () => {
-                // Play BGM again when a video finishes
-                bgmAudio.pause();
+                bgmAudio.play(); // FIXED: Resume BGM when video finishes!
             });
         });
 
         // --- INTRO SEQUENCE LOGIC ---
-        // Step 1: Click the Play Screen
         playScreen.addEventListener('click', () => {
             playScreen.classList.remove('active'); 
             crackEffect.classList.add('active');   
 
-            // Start the BGM right when the game starts!
             if (bgmAudio) {
                 bgmAudio.play();
             }
@@ -339,15 +331,29 @@
             }, 1500); 
         });
 
-        // Step 2: Listen for the Spacebar
-        document.addEventListener('keydown', (event) => {
-            if (event.code === 'Space' && canJump === true) {
+        // --- THE JUMP LOGIC ---
+        function triggerJump() {
+            if (canJump === true) {
                 canJump = false; 
                 jumpPrompt.style.display = 'none'; 
                 runMarioAnimation(); 
             }
+        }
+
+        // Control 1: PC Users (Spacebar)
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                triggerJump();
+            }
         });
 
+        // Control 2: Mobile Users (Screen Tap)
+        marioStage.addEventListener('pointerdown', (event) => {
+            event.preventDefault(); 
+            triggerJump();
+        });
+        
+        // --- MARIO ANIMATION TIMING ---
         function runMarioAnimation() {
             setTimeout(() => {
                 mario.classList.remove('mario-spriteStanding');
